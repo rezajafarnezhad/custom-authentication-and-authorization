@@ -1,0 +1,14 @@
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\bin\Debug\net6.0\UserMng.Data.deps.json
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\bin\Debug\net6.0\UserMng.Data.runtimeconfig.json
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\bin\Debug\net6.0\UserMng.Data.dll
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\bin\Debug\net6.0\UserMng.Data.pdb
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.csproj.AssemblyReference.cache
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.AssemblyInfoInputs.cache
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.AssemblyInfo.cs
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.csproj.CoreCompileInputs.cache
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.dll
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\refint\UserMng.Data.dll
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.pdb
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\UserMng.Data.genruntimeconfig.cache
+C:\Users\mReza\source\repos\UserMng\UserMng.Data\obj\Debug\net6.0\ref\UserMng.Data.dll

@@ -1,0 +1,15 @@
+﻿
+
+@model UserMng.Web.Models.ActiveAccountPageModel
+
+<div style="direction: rtl; padding: 20px;border: dotted 2px coral">
+    <h3>
+        کاربر محترم :  " @Model.UserName "
+        <p>
+            جهت ثبت نام در سایت باید روی 
+            <a href="https://localhost:7000/ActiveAccount/@Model.ActiveCode" style="text-decoration: black;color: darkred">
+                لینک فعال سازی
+            </a> کیلیک کنید.
+        </p>
+    </h3>
+</div>

@@ -1,0 +1,33 @@
+﻿
+
+@model UserMng.Core.ViewModels.RegisterViewModel
+
+
+<div id="register" class="animate form">
+    <form id="registerfrm" method="post">
+        <h1> ثبت نام در سامانه </h1>
+        <p>
+            <label for="usernamesignup" class="uname" data-icon="👤">نام کاربری</label>
+            <input asp-for="UserName" type="text" placeholder="" />
+        </p>
+        <p>
+            <label for="emailsignup" class="youmail" data-icon="📧">ایمیل</label>
+            <input asp-for="Email" type="email" placeholder="info@gmail.com" />
+        </p>
+        <p>
+            <label for="passwordsignup" class="youpasswd" data-icon="🔑">کلمه عبور</label>
+            <input asp-for="Password" type="password" placeholder="***" />
+        </p>
+        <p>
+            <label for="passwordsignup_confirm" class="youpasswd" data-icon="🗝️">تایید کلمه عبور </label>
+            <input asp-for="ConfirmPassword" type="password" placeholder="***" />
+        </p>
+        <p class="signin button">
+            <button onclick="SendForm('/Home/Register','registerfrm')" type="button">ثبت نام</button>
+        </p>
+        <p class="change_link">
+            <a href="#tologin" class="to_register"> برو به ورود </a>
+            !قبلا ثبت نام کرده ام 
+        </p>
+    </form>
+</div>

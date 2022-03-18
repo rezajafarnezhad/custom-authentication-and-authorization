@@ -1,0 +1,37 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "فعال سازی حساب";
+}
+
+<section>
+    <div id="container_demo">
+        <a class="hiddenanchor" id="toregister"></a>
+        <a class="hiddenanchor" id="tologin"></a>
+        <div id="wrapper">
+
+            <div class="animate form">
+
+                @if (ViewBag.Message)
+                {
+                    <div style="background-color: springgreen;text-align: center;">
+                        <p>
+                            حساب شما فعال شد میتوانید در سایت  <a href="/"><strong>لاگین</strong> </a> کنید. باتشکر
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <div style="background-color: lightcoral;text-align: center;">
+                        <p>
+                            <strong>
+                                کاربری یافت نشد !
+                            </strong>  
+                        </p>
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</section>

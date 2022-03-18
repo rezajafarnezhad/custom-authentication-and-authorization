@@ -1,0 +1,102 @@
+﻿@using UserMng.Core.ViewModels.PanelAdmin
+@model UserMng.Core.ViewModels.PanelAdmin.RoleModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "افزودن نقش جدید";
+    var ModelPermission = ViewData["Permissions"] as List<PermissionModel>;
+}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">افزودن دسترسی</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+
+
+<div class="row">
+
+    <form id="CreateUserFrm" method="post">
+        <div class="col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    افزودن دسترسی
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>نام نقش</label>
+                        <input asp-for="RoleName" class="form-control text-center">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" onclick="SendForm('/Admin/Role/CreateRole','CreateUserFrm')" class="form-control btn btn-success">ثبت شود</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    دسترسی ها
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>دسترسی ها</label>
+                        <ul>
+                            @foreach (var item in ModelPermission.Where(c => c.ParentPermissionId == null))
+                            {
+                                <li>
+                                    <input type="checkbox" id="Permissions" name="Permissions" value="@item.Id" /> @item.PermissionTitle
+
+                                    @if (ModelPermission.Any(c => c.ParentPermissionId == item.Id))
+                                    {
+                                        <ul>
+                                            @foreach (var item2 in ModelPermission.Where(c => c.ParentPermissionId == item.Id))
+                                            {
+                                                <li>
+                                                    <input type="checkbox" id="Permissions" name="Permissions" value="@item2.Id" /> @item2.PermissionTitle
+
+                                                    @if (ModelPermission.Any(c => c.ParentPermissionId == item2.Id))
+                                                    {
+
+                                                        <ul>
+                                                            @foreach (var item3 in ModelPermission.Where(c => c.ParentPermissionId == item2.Id))
+                                                            {
+                                                                <li>
+                                                                    <input type="checkbox" id="Permissions" name="Permissions" value="@item3.Id" /> @item3.PermissionTitle
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    }
+
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<script>
+
+    function GotoList() {
+
+        window.location.href = "/Admin/Role/Index";
+    }
+
+</script>

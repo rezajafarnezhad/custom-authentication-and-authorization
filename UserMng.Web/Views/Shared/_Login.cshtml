@@ -1,0 +1,31 @@
+﻿@model UserMng.Core.ViewModels.LoginViewModel
+
+<div id="login" class="animate form">
+    <form id="loginfrm" method="post">
+        <h1>ورود به سامانه</h1>
+        <p>
+            <label for="username" class="uname" data-icon="📧">ایمیل</label>
+            <input asp-for="Email" type="text" placeholder="info@gmail.com" />
+        </p>
+        <p>
+            <label for="password" class="youpasswd" data-icon="🔑">کلمه عبور</label>
+            <input asp-for="Password" type="password" placeholder="***" />
+        </p>
+        <p class="keeplogin">
+            <label for="loginkeeping">
+                <input asp-for="RemmemberMe" type="checkbox" name="loginkeeping" value="loginkeeping" />
+
+                به خاطر سپردن حساب
+            </label>
+        </p>
+        <p class="login button">
+            <button onclick="SendForm('/Home/Login','loginfrm')" type="button">ورود</button>
+        </p>
+        <p class="change_link">
+            <a href="#toregister" class="to_register">ثبت نام</a>
+            !حسابی ندارم
+
+            <a href="/ForgotPassword" class="to_register" style="float: left">کلمه عبور را فراموش کرده ام</a>
+        </p>
+    </form>
+</div>
