@@ -1,4 +1,7 @@
-﻿
+﻿@using UserMng.Core.Contracts
+@using UserMng.Data.Entites.Account
+@using UserMng.Web.Authentication
+
 <!DOCTYPE html>
 <html>
 
@@ -16,9 +19,11 @@
     <!-- Page-Level Plugin CSS - Blank -->
     <!-- SB Admin CSS - Include with every page -->
     <link href="/Admin/css/sb-admin.css" rel="stylesheet">
-    <link href="/lib/sweetalert/sweetalert.min.css" rel="stylesheet"/>
+    <link href="/lib/sweetalert/sweetalert.min.css" rel="stylesheet" />
 
 </head>
+
+@inject IPanelService _panelService;
 
 <body>
 
@@ -266,24 +271,32 @@
                         <li>
                             <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> پنل کاربری</a>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> مدیریت کاربران<span class=""></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/Admin/User/Index">مشاهده کاربران</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li> 
-                        <li>
-                            <a href="#"><i class="fa fa-hand-o-down fa-fw"></i> مدیریت دسترسی ها<span class=""></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="/Admin/Role/Index">مشاهده نقش ها</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
+
+                        @if (_panelService.CheckPermission(Roles.CanViewUserManager, User.Identity.Name))
+                        {
+                            <li>
+                                <a href="#"><i class="fa fa-users fa-fw"></i> مدیریت کاربران<span class=""></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="/Admin/User/Index">مشاهده کاربران</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                         </li>
+                        }
+                        @if (_panelService.CheckPermission(Roles.CanViewRoleManager, User.Identity.Name))
+                        {
+                            <li>
+                                <a href="#"><i class="fa fa-hand-o-down fa-fw"></i> مدیریت دسترسی ها<span class=""></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="/Admin/Role/Index">مشاهده نقش ها</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                        </li>
+                        }
+
                     </ul>
                     <!-- /#side-menu -->
                 </div>

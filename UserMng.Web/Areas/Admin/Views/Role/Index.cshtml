@@ -1,5 +1,7 @@
-﻿@model IEnumerable<UserMng.Core.ViewModels.PanelAdmin.RoleModel
->
+﻿@using UserMng.Core.Contracts
+@using UserMng.Web.Authentication
+@model IEnumerable<UserMng.Core.ViewModels.PanelAdmin.RoleModel>
+@inject IPanelService _panelService
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "مدیریت نقش ها";
@@ -20,7 +22,12 @@
         لیست نقش ها
     </div>
     <div class="panel-heading pull-left">
-        <a href="/Admin/Role/CreateRole/" class="btn btn-success">جدید</a>
+        @if (_panelService.CheckPermission(Roles.CanViewAddRole, User.Identity.Name))
+        {
+            <a href="/Admin/Role/CreateRole/" class="btn btn-success">جدید</a>
+
+        }
+
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
@@ -28,32 +35,39 @@
         <div class="table-responsive">
             <table id="mytbl" class="table table-striped table-bordered table-hover">
                 <thead>
-                <tr>
+                    <tr>
 
-                    <th>نام نقش</th>
-                    <th class="text-center">تعداد کاربران عضو</th>
-                    <th></th>
-                </tr>
+                        <th>نام نقش</th>
+                        <th class="text-center">تعداد کاربران عضو</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var item in Model)
-                {
+                    @foreach (var item in Model)
+                    {
 
-                    <tr>
-                        <td>@item.RoleName</td>
-                        <td class="text-center">@item.UserCount</td>
-                        <td class="text-center">
-                            <a href="/@item.RoleId/EditRole" class="btn btn-warning">
-                                <i class="fa fa-edit"></i>
-                            </a> 
-                            
-                            <a href="#" onclick="RemoveData('/Admin/Role/RemoveRole',{Id:@item.RoleId})" class="btn btn-danger">
-                                <i class="fa fa-trash-o"></i>
-                            </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>@item.RoleName</td>
+                            <td class="text-center">@item.UserCount</td>
+                            <td class="text-center">
 
-                }
+                                @if (_panelService.CheckPermission(Roles.CanViewEditRole, User.Identity.Name))
+                                {
+                                    <a href="/@item.RoleId/EditRole" class="btn btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+
+                                }
+                                @if (_panelService.CheckPermission(Roles.CanViewRemoveRole, User.Identity.Name))
+                                {
+                                    <a href="#" onclick="RemoveData('/Admin/Role/RemoveRole', { Id: @item.RoleId })" class="btn btn-danger">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+
+                    }
                 </tbody>
             </table>
         </div>
@@ -62,14 +76,14 @@
 
 @section Sc
 {
-    
-    <script>
 
-        
-        function RefreshTbl() {
-            $("#mytbl").load("/Admin/Role/Index #mytbl");
-        }
+<script>
 
-    </script>
+
+    function RefreshTbl() {
+        $("#mytbl").load("/Admin/Role/Index #mytbl");
+    }
+
+</script>
 
 }

@@ -1,5 +1,7 @@
-﻿@model UserMng.Core.ViewModels.PanelAdmin.ListUsers
-
+﻿@using UserMng.Web.Authentication
+@using UserMng.Core.Contracts
+@model UserMng.Core.ViewModels.PanelAdmin.ListUsers
+@inject IPanelService _panelService;
 @{
     Layout = null;
 }
@@ -54,31 +56,42 @@
                             @foreach (var roleName in item.RoleName)
                             {
                                 <p>
-                                  @((string.IsNullOrWhiteSpace(roleName) ? "مشخص نشده" : roleName))
+                                    @((string.IsNullOrWhiteSpace(roleName) ? "مشخص نشده" : roleName))
                                 </p>
                             }
 
                         </td>
                         <td class="text-center">
-                            <a href="/@item.Id/EditUser" class="btn btn-warning">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                            <a href="#" onclick="ChangePass('@item.Id')" class="btn btn-primary">
-                                <i class="fa fa-key"></i>
-                            </a>
-                            
-                            @if (item.IsActive)
+                            @if (_panelService.CheckPermission(Roles.CanViewEditUser, User.Identity.Name))
                             {
-                                <a href="#" onclick="ChangeStatus('@item.Id')"  class="btn btn-danger">
-                                    <i class="fa fa-times-circle-o"></i>
+                                <a href="/@item.Id/EditUser" class="btn btn-warning">
+                                    <i class="fa fa-edit"></i>
                                 </a>
                             }
-                            else
+                            @if (_panelService.CheckPermission(Roles.CanViewChangePassword, User.Identity.Name))
                             {
-                                <a href="#" onclick="ChangeStatus('@item.Id')"  class="btn btn-success">
-                                    <i class="fa fa-check-circle-o"></i>
+                                <a href="#" onclick="ChangePass('@item.Id')" class="btn btn-primary">
+                                    <i class="fa fa-key"></i>
                                 </a>
                             }
+
+                            @if (_panelService.CheckPermission(Roles.CanViewChangeStatus, User.Identity.Name))
+                            {
+                                @if (item.IsActive)
+                                {
+                                    <a href="#" onclick="ChangeStatus('@item.Id')" class="btn btn-danger">
+                                        <i class="fa fa-times-circle-o"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#" onclick="ChangeStatus('@item.Id')" class="btn btn-success">
+                                        <i class="fa fa-check-circle-o"></i>
+                                    </a>
+                                }
+                            }
+
+
                         </td>
                     </tr>
 

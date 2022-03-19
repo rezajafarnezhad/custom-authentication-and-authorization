@@ -19,4 +19,5 @@ public interface IPanelService
     Task<RoleModel> GetForEditRole(int Id);
     Task<OperationResult> EditRole(RoleModel roleModel);
     Task<OperationResult> RemoveRole(int RoleId);
+    bool CheckPermission(int PermissionId, string userName);
 }

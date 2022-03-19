@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using UserMng.Core.Common;
 using UserMng.Core.Contracts;
 using UserMng.Core.ViewModels.PanelAdmin;
+using UserMng.Web.Authentication;
 using UserMng.Web.Common;
 using UserMng.Web.Common.MessageBox;
 
@@ -8,6 +11,8 @@ namespace UserMng.Web.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize]
+    [PermissionChecker(Roles.CanViewRoleManager)]
     public class RoleController : Controller
     {
 
@@ -26,6 +31,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
         }
 
 
+        [PermissionChecker(Roles.CanViewAddRole)]
         public async Task<IActionResult> CreateRole()
         {
 
@@ -33,6 +39,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return View();
         }
 
+        [PermissionChecker(Roles.CanViewAddRole)]
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleModel roleModel)
         {
@@ -47,6 +54,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
 
         }
 
+        [PermissionChecker(Roles.CanViewEditRole)]
         [HttpGet("/{Id}/EditRole")]
         public async Task<IActionResult> EditRole(int Id)
         {
@@ -56,6 +64,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return View(_data);
         }
 
+        [PermissionChecker(Roles.CanViewEditRole)]
         [HttpPost]
         public async Task<IActionResult> EditRole(RoleModel roleModel)
         {
@@ -69,6 +78,8 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return _msgBox.FaildMsg(result.Message);
         }
 
+
+        [PermissionChecker(Roles.CanViewRemoveRole)]
         [HttpPost]
         public async Task<IActionResult> RemoveRole(int Id)
         {

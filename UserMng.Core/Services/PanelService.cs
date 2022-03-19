@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.EntityFrameworkCore;
 using UserMng.Core.Common;
 using UserMng.Core.Contracts;
 using UserMng.Core.ViewModels.PanelAdmin;
@@ -29,7 +30,7 @@ namespace UserMng.Core.Services
                     IsActive = c.IsActive,
                     RegistractionDate = c.RegisterDate,
                     UserName = c.UserName,
-                    RoleName = c.userRoles.Select(a=>a.Role.RoleTitle).ToList(),
+                    RoleName = c.userRoles.Select(a => a.Role.RoleTitle).ToList(),
 
                 });
 
@@ -180,7 +181,7 @@ namespace UserMng.Core.Services
         {
             try
             {
-                var _data = await _context.Users.Where(c=>c.Id == Convert.ToInt32(userId)).Select(c => new ChangeUserPasswordModel()
+                var _data = await _context.Users.Where(c => c.Id == Convert.ToInt32(userId)).Select(c => new ChangeUserPasswordModel()
                 {
                     Id = c.Id,
                     UserName = c.UserName,
@@ -241,7 +242,7 @@ namespace UserMng.Core.Services
                 {
                     RoleId = c.Id,
                     RoleName = c.RoleTitle,
-                    UserCount = c.userRoles.Select(r=>r.UserId).Count(),
+                    UserCount = c.userRoles.Select(r => r.UserId).Count(),
 
                 }).ToListAsync();
                 return _data;
@@ -306,22 +307,21 @@ namespace UserMng.Core.Services
             await _context.RolePermissions.AddRangeAsync(RolePermissions);
             await _context.SaveChangesAsync();
         }
-
         private async Task RemovePermissionRole(int RoleId)
         {
-           var _RolePermissons=await _context.RolePermissions.Where(c => c.RoleId == RoleId).ToListAsync();
-           _context.RolePermissions.RemoveRange(_RolePermissons);
-           await _context.SaveChangesAsync();
+            var _RolePermissons = await _context.RolePermissions.Where(c => c.RoleId == RoleId).ToListAsync();
+            _context.RolePermissions.RemoveRange(_RolePermissons);
+            await _context.SaveChangesAsync();
         }
         public async Task<RoleModel> GetForEditRole(int Id)
         {
             try
             {
-                var _data = await _context.Roles.Where(c=>c.Id == Id).Select(c => new RoleModel()
+                var _data = await _context.Roles.Where(c => c.Id == Id).Select(c => new RoleModel()
                 {
                     RoleId = c.Id,
                     RoleName = c.RoleTitle,
-                    Permissions = c.RolePermissions.Select(r=>r.PermissionId).ToList(),
+                    Permissions = c.RolePermissions.Select(r => r.PermissionId).ToList(),
 
                 }).SingleOrDefaultAsync();
 
@@ -345,7 +345,7 @@ namespace UserMng.Core.Services
                 _role.RoleTitle = roleModel.RoleName;
                 _context.Roles.Update(_role);
                 await RemovePermissionRole(_role.Id);
-                await AddPermissionToRole(_role.Id,roleModel.Permissions);
+                await AddPermissionToRole(_role.Id, roleModel.Permissions);
                 return operationResult.Succeeded("نقش ویرایش شد");
 
             }
@@ -379,5 +379,31 @@ namespace UserMng.Core.Services
             }
 
         }
+
+        public bool CheckPermission(int PermissionId, string userName)
+        {
+            var _userId =  _context.Users.Where(c => c.UserName == userName).Select(c => c.Id)
+                .SingleOrDefault();
+
+
+            //استخراج نقش هایی که این کاربر دارد
+
+            var _rolesUser =  _context.UserRoles.Where(c => c.UserId == _userId).Select(c => c.RoleId).ToList();
+
+            if (!_rolesUser.Any())
+                return false;
+
+
+            //استخراج نقش هایی که این دسترسی دارد
+
+            var RolePermissions = _context.RolePermissions.Where(c => c.PermissionId == PermissionId)
+                .Select(c => c.RoleId).ToList();
+
+            return RolePermissions.Any(c => _rolesUser.Contains(c));
+
+        }
+
     }
+
+
 }

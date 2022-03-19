@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using UserMng.Core.Common;
 using UserMng.Core.Contracts;
 using UserMng.Core.ViewModels.PanelAdmin;
+using UserMng.Web.Authentication;
 using UserMng.Web.Common;
 using UserMng.Web.Common.MessageBox;
 
 namespace UserMng.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
+    [PermissionChecker(Roles.CanViewUserManager)]
     public class UserController : Controller
     {
         private readonly IPanelService _panelService;
@@ -32,6 +37,8 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return View("_Users",_date);
         }
 
+
+        [PermissionChecker(Roles.CanViewAddUser)]
         public async Task<IActionResult> CreateUser()
         {
             var Roles= await _panelService.GetAllRole();
@@ -39,6 +46,8 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return View();
         }
 
+
+        [PermissionChecker(Roles.CanViewAddUser)]
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateUser _createUser)
         {
@@ -53,7 +62,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return _msgBox.FaildMsg(result.Message);
         }
 
-
+        [PermissionChecker(Roles.CanViewEditUser)]
         [HttpGet("/{Id}/EditUser")]
         public async Task<IActionResult> EditUser(string Id)
         {
@@ -69,6 +78,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [PermissionChecker(Roles.CanViewEditUser)]
         public async Task<IActionResult> EditUser(EditUser editUser)
         {
             if (!ModelState.IsValid)
@@ -81,6 +91,8 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return _msgBox.FaildMsg(result.Message);
         }
 
+
+        [PermissionChecker(Roles.CanViewChangePassword)]
         public async Task<IActionResult> changePassword(string Id)
         {
             var _data = await _panelService.ChangeUserPassword(Id);
@@ -91,6 +103,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
             return View(_data);
         }
 
+        [PermissionChecker(Roles.CanViewChangePassword)]
         [HttpPost]
         public async Task<IActionResult> changePassword(ChangeUserPasswordModel changeUserPasswordModel)
         {
@@ -105,6 +118,7 @@ namespace UserMng.Web.Areas.Admin.Controllers
 
         }
 
+        [PermissionChecker(Roles.CanViewChangeStatus)]
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(string Id)
         {

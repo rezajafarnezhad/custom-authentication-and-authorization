@@ -1,5 +1,7 @@
-﻿@model UserMng.Core.ViewModels.PanelAdmin.ListUsers
-
+﻿@using UserMng.Web.Authentication
+@using UserMng.Core.Contracts
+@model UserMng.Core.ViewModels.PanelAdmin.ListUsers
+@inject IPanelService _panelService
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "مدیریت کاربران";
@@ -20,7 +22,11 @@
         لیست کاربران
     </div>
     <div class="panel-heading pull-left">
-        <a href="/Admin/User/CreateUser/" class="btn btn-success">جدید</a>
+        @if (_panelService.CheckPermission(Roles.CanViewAddUser, User.Identity.Name))
+        {
+            <a href="/Admin/User/CreateUser/" class="btn btn-success">جدید</a>
+
+        }
     </div>
     <!-- /.panel-heading -->
 
@@ -28,7 +34,7 @@
 
     <form id="mform" action="/Search" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace" data-ajax-update="#Content">
         <div id="Content">
-            <partial name="_Users" model="@Model"  />
+            <partial name="_Users" model="@Model" />
         </div>
     </form>
 
@@ -38,32 +44,32 @@
 
 @section Sc
 {
-    <script>
-        function sendPage(pagenum) {
-            $("#pageid").val(pagenum);
-            $("#mform").submit();
-        }
+<script>
+    function sendPage(pagenum) {
+        $("#pageid").val(pagenum);
+        $("#mform").submit();
+    }
 
 
-        function ChangePass(_Id) {
-            LoadComponenet("/Admin/User/changePassword",
-                { Id: _Id },
-                function(res) {
-                    $('body').append(res);
-                    $('#changePass').modal();
-                });
-        }
+    function ChangePass(_Id) {
+        LoadComponenet("/Admin/User/changePassword",
+            { Id: _Id },
+            function(res) {
+                $('body').append(res);
+                $('#changePass').modal();
+            });
+    }
 
 
-        function ChangeStatus(_Id) {
-            StatusData('/Admin/User/ChangeStatus', { Id: _Id });
-        }
+    function ChangeStatus(_Id) {
+        StatusData('/Admin/User/ChangeStatus', { Id: _Id });
+    }
 
-        function RefreshTbl() {
-            $("#mytbl").load("/Admin/User/Index #mytbl");
-        }
+    function RefreshTbl() {
+        $("#mytbl").load("/Admin/User/Index #mytbl");
+    }
 
-    </script>
+</script>
 
 
 }
