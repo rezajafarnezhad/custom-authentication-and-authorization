@@ -356,5 +356,28 @@ namespace UserMng.Core.Services
 
 
         }
+
+        public async Task<OperationResult> RemoveRole(int RoleId)
+        {
+            OperationResult operationResult = new OperationResult();
+
+            try
+            {
+                var _role = await _context.Roles.FindAsync(RoleId);
+
+                if (await _context.UserRoles.AnyAsync(c => c.RoleId == RoleId))
+                    return operationResult.Failed("کاربر یا کاربرانی عضو این نقش هستند");
+
+                _context.Remove(_role);
+                await RemovePermissionRole(_role.Id);
+
+                return operationResult.Succeeded("نقش حذف شد");
+            }
+            catch (Exception)
+            {
+                return operationResult.Failed();
+            }
+
+        }
     }
 }

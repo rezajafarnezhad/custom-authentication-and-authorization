@@ -18,4 +18,5 @@ public interface IPanelService
     Task<OperationResult> CreateRole(RoleModel roleModel);
     Task<RoleModel> GetForEditRole(int Id);
     Task<OperationResult> EditRole(RoleModel roleModel);
+    Task<OperationResult> RemoveRole(int RoleId);
 }

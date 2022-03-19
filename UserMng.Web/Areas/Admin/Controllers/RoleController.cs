@@ -68,5 +68,15 @@ namespace UserMng.Web.Areas.Admin.Controllers
 
             return _msgBox.FaildMsg(result.Message);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveRole(int Id)
+        {
+            var result = await _panelService.RemoveRole(Id);
+            if (result.isSucceeded)
+                return _msgBox.SuccessMsg(result.Message, "RefreshTbl()");
+
+            return _msgBox.FaildMsg(result.Message);
+        }
     }
 }
