@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDatabaseContext>(op =>
     op.UseSqlServer(builder.Configuration.GetConnectionString("AppConnection"));
 });
 
+//d
 
 builder.Services.AddScoped<ImsgBox, msgBox>();
 builder.Services.AddScoped<IuserService, UserServices>();
